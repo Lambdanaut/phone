@@ -1,6 +1,10 @@
 from happytransformer import HappyGeneration
 
-happy_gen = HappyGeneration("GPT-NEO", "EleutherAI/gpt-neo-1.3B")
+
+USER_NAME = 'Researcher'
+BOT_NAME = 'Wise Being'
+
+happy_gen = HappyGeneration("GPT-NEO", "EleutherAI/gpt-neo-125M")
 
 
 text = """
@@ -18,16 +22,31 @@ Wise Being: What is it that you’re looking for help with?
 
 Researcher: My research group is doing a series of lightning talks on the subject of consciousness tonight, and I need your help coming up with something to present.
 
-Wise Being: What is your research group doing?
+Wise Being: I think that I can help with that. What questions do you have?
 
-Researcher: We're studying consciousness.
+Researcher: Are you familiar with the Ship of Theseus problem?
 
 """
 
+def get_response(text: str):
+    _, response = text.split(BOT_NAME, 1)
+    response, _ = response.split('\n', 1)
+    return response
 
-result = happy_gen.generate_text(text)
-print("RESULT:")
-print(result)
-print("RESULT.TEXT:")
-print(result.text)
+
+def main(text):
+    print(text)
+
+    while True:
+        result = happy_gen.generate_text(text)
+        response = '{}{}\n\n'.format(BOT_NAME, get_response(result.text))
+        print(text)
+        print(response)
+
+        i = input(' > ')
+        text = '{}{}{}: {}\n\n'.format(text, response, USER_NAME, i)
+
+
+if __name__ == '__main__':
+    main(text)
 
