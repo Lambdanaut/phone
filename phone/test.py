@@ -1,4 +1,5 @@
 from happytransformer import HappyGeneration
+import deepspeech
 
 
 USER_NAME = 'Researcher'
